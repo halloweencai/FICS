@@ -1,0 +1,69 @@
+{
+    "rel": true,
+    "msg": "获取成功",
+    "list": [
+        {
+        	"id":1,
+            "name": "历史",
+            "basicSituation":21,
+            "honor": "2017-01-10 10:42:36",
+            "socialProperty":"jakldjkf",
+            "transferStatus":"dfkdhfk",
+            "deathStatus":"dfkdhfk",
+            "determineStatus":"dfkdhfk"
+        },
+        {
+            "id": 2,
+           "name": "李四",
+            "basicSituation":21,
+            "honor": "2017-01-10 10:42:36",
+            "socialProperty":"jakldjkf",
+            "transferStatus":"dfkdhfk",
+            "deathStatus":"dfkdhfk",
+            "determineStatus":"dfkdhfk"
+        },
+         {
+            "id":3,
+           "name": "张三",
+            "basicSituation":21,
+            "honor": "2017-01-10 10:42:36",
+            "socialProperty":"jakldjkf",
+            "transferStatus":"dfkdhfk",
+            "deathStatus":"dfkdhfk",
+            "determineStatus":"dfkdhfk"
+        },
+        {
+            "id": 4,
+           "name": "张三",
+            "basicSituation":21,
+            "honor": "2017-01-10 10:42:36",
+            "socialProperty":"jakldjkf",
+            "transferStatus":"dfkdhfk",
+            "deathStatus":"dfkdhfk",
+            "determineStatus":"dfkdhfk"
+        },
+         {
+            "id":5,
+           "name": "张三",
+            "basicSituation":21,
+            "honor": "2017-01-10 10:42:36",
+            "socialProperty":"jakldjkf",
+            "transferStatus":"dfkdhfk",
+            "deathStatus":"dfkdhfk",
+            "determineStatus":"dfkdhfk"
+        },
+        {
+            "id": 6,
+           "name": "张三",
+            "basicSituation":21,
+            "honor": "2017-01-10 10:42:36",
+            "socialProperty":"jakldjkf",
+            "transferStatus":"dfkdhfk",
+            "deathStatus":"dfkdhfk",
+            "determineStatus":"dfkdhfk"
+        }
+    ],
+    "count": 57
+}
+
+

@@ -1,0 +1,105 @@
+{
+    "rel": true,
+    "msg": "获取成功",
+    "list": [
+        {
+        	"id":1,
+            "deptName": "张三",
+            "head":21,
+            "phoneNumber": "2017-01-10 10:42:36",
+            "cityState":"jakldjkf",
+            "honor":"dfkdhfk"
+        },
+        {
+            "id": 2,
+            "deptName": "layui",
+            "head": "nihao",
+            "phoneNumber": "1881927890",
+            "city-state":"wkehfkd",
+            "honor":"dkjskj"
+        },
+         {
+            "id":3,
+            "deptName": "张三",
+            "head":21,
+            "phoneNumber": "2017-01-10 10:42:36",
+            "cityState":"jakldjkf",
+            "honor":"dfkdhfk"
+        },
+        {
+            "id": 4,
+            "deptName": "layui",
+            "head": "nihao",
+            "phoneNumber": "1881927890",
+            "city-state":"wkehfkd",
+            "honor":"dkjskj"
+        },
+         {
+            "id":5,
+            "deptName": "张三",
+            "head":21,
+            "phoneNumber": "2017-01-10 10:42:36",
+            "cityState":"jakldjkf",
+            "honor":"dfkdhfk"
+        },
+        {
+            "id": 6,
+            "deptName": "layui",
+            "head": "nihao",
+            "phoneNumber": "1881927890",
+            "city-state":"wkehfkd",
+            "honor":"dkjskj"
+        },
+         {
+            "id":7,
+            "deptName": "张三",
+            "head":21,
+            "phoneNumber": "2017-01-10 10:42:36",
+            "cityState":"jakldjkf",
+            "honor":"dfkdhfk"
+        },
+        {
+            "id":8,
+            "deptName": "layui",
+            "head": "nihao",
+            "phoneNumber": "1881927890",
+            "city-state":"wkehfkd",
+            "honor":"dkjskj"
+        },
+         {
+            "id":9,
+            "deptName": "张三",
+            "head":21,
+            "phoneNumber": "2017-01-10 10:42:36",
+            "cityState":"jakldjkf",
+            "honor":"dfkdhfk"
+        },
+        {
+            "id": 10,
+            "deptName": "layui",
+            "head": "nihao",
+            "phoneNumber": "1881927890",
+            "city-state":"wkehfkd",
+            "honor":"dkjskj"
+        },
+         {
+            "id":11,
+            "deptName": "张三",
+            "head":21,
+            "phoneNumber": "2017-01-10 10:42:36",
+            "cityState":"jakldjkf",
+            "honor":"dfkdhfk"
+        },
+        {
+            "id": 12,
+            "deptName": "layui",
+            "head": "nihao",
+            "phoneNumber": "1881927890",
+            "cityState":"wkehfkd",
+            "honor":"dkjskj"
+        }
+    ],
+    "count": 57
+}
+
+

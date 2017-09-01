@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>先进个人信息管理</title>
+		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="css/global.css" media="all">
+		<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/table.css" />
+	</head>
+
+	<body>
+		<div class="admin-main">
+
+			<blockquote class="layui-elem-quote">
+				<a href="javascript:;" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 申报
+				</a>
+				<input type="text"  id="searchText" placeholder="请输入身份证号" style="height:20px;width:200px;margin-left: 50px;" />
+				<a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+					<i class="layui-icon">&#xe615;</i> 搜索
+				</a>
+			</blockquote>
+			<fieldset class="layui-elem-field">
+				<legend>数据列表</legend>
+				<div class="layui-field-box layui-form">
+					<table class="layui-table admin-table">
+						<thead>
+							<tr>
+								<th style="width: 30px;"><input type="checkbox" lay-filter="allselector" lay-skin="primary"></th>
+								<th>姓名</th>
+								<th>荣誉称号</th>
+								<th>社会属性</th>
+								<th>劳模状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="content">
+						</tbody>
+					</table>
+				</div>
+			</fieldset>
+			<div class="admin-table-page">
+				<div id="paged" class="page">
+				</div>
+			</div>
+		</div>
+		<!--模板-->
+		<script type="text/html" id="tpl">
+			{{# layui.each(d.list, function(index, item){ }}
+			<tr>
+				<td><input type="checkbox" lay-skin="primary"></td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.honoraryTitle }}</td>
+				<td>{{ item.job }}</td>
+				<td>{{ item.modelWorkerStatus }}</td>
+				<td>
+					<a href="javascript:;" data-id="{{ item.idnumber }}" data-name="{{ item.name }}" data-opt="edit" class="layui-btn layui-btn-mini">编辑</a>
+					<a href="javascript:;" data-id="{{ item.idnumber }}" data-name="{{ item.name }}" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+				</td>
+			</tr>
+			{{# }); }}
+		</script>
+		<script type="text/javascript" src="plugins/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: 'js/'
+			});
+
+			layui.use(['paging', 'form'], function() {
+				var $ = layui.jquery,
+					paging = layui.paging(),
+					layerTips = parent.layer === undefined ? layui.layer : parent.layer, //获取父窗口的layer对象
+					layer = layui.layer, //获取当前窗口的layer对象
+					form = layui.form();
+
+
+                paging.init({
+                    openWait: true,
+                    url: '/FCIS/advancedperson/getAll', //地址datas/table1.json
+					elem: '#content', //内容容器
+					params: { //发送到服务端的参数
+					},
+					type: 'GET',
+					tempElem: '#tpl', //模块容器
+					pageConfig: { //分页参数配置
+						elem: '#paged', //分页容器
+						pageSize: 3 //分页大小
+					},
+					success: function(data) { //渲染成功的回调
+						console.log(data)
+					},
+					fail: function(msg) { //获取数据失败的回调
+						console.log(msg)
+					},
+					complate: function() { //完成的回调
+						//alert('处理完成');
+						//重新渲染复选框
+						form.render('checkbox');
+						form.on('checkbox(allselector)', function(data) {
+							var elem = data.elem;
+
+							$('#content').children('tr').each(function() {
+								var $that = $(this);
+								//全选或反选
+								$that.children('td').eq(0).children('input[type=checkbox]')[0].checked = elem.checked;
+								form.render('checkbox');
+							});
+						});
+						
+						//绑定所有编辑按钮事件						
+						$('#content').children('tr').each(function() {
+							var $that = $(this);
+							$that.children('td:last-child').children('a[data-opt=edit]').on('click', function() {
+							var id=$(this).data('id');//局部变量，暂时存放所在列的idnumber
+							console.log(111,id);
+             				$.get('temp/edit-form1.html', null, function(form) {
+							editBoxIndex = layer.open({
+							type: 1,
+							title: '修改',
+							content: form,
+							btn: ['保存', '取消'],
+							shade: false,
+							offset: ['100px', '30%'],
+							area: ['600px', '400px'],
+							zIndex: 19950924,
+							maxmin: true,
+							yes: function(index) {
+								//触发表单的提交事件
+								$('form.layui-form').find('button[lay-filter=edit]').click();
+							},
+							full: function(elem) {
+								var win = window.top === window.self ? window : parent.window;
+								$(win).on('resize', function() {
+									var $this = $(this);
+									elem.width($this.width()).height($this.height()).css({
+										top: 0,
+										left: 0
+									});
+									elem.children('div.layui-layer-content').height($this.height() - 95);
+								});
+							},
+							success: function(layero, index) {
+								//弹出窗口成功后渲染表
+								var form = layui.form();
+								form.render();
+								function getMyDate(str){  
+            						var oDate = new Date(str),  
+           						    oYear = oDate.getFullYear(),  
+            						oMonth = oDate.getMonth()+1,  
+            						oDay = oDate.getDate(), 
+            						oTime = oYear +'-'+ oMonth +'-'+ oDay;//最后拼接时间  
+            						return oTime;  
+        						};
+								function getInfo(){
+                                //$('form.layui-form').find('input[name=nation]').val('lsi');
+								$.ajax({
+       									 type: "POST",
+        								 url: "/FCIS/advancedperson/find2",  //后台程序地址
+       									 data: {idnumber: id},  //需要post的数据
+       									 dataType:"json",
+       									 success: function(result){          
+       										 if (result!=null){   //如果成功了
+            							 	$('#name').val(result.name);
+            							 	if(result.sex==='男'){
+            							 		$('form.layui-form').find('input[title="男"]').checked;
+            							 	}
+            							 	else{
+            							 		if(result.sex==='女'){
+            							 		$('form.layui-form').find('input[title="女"]').checked;
+            							 	    }
+            							 		else{
+            							 		$('form.layui-form').find('input[title="其他"]').checked;
+            							 		}
+            							 	} 
+            							 	$('form.layui-form').find('input[name=nation]').val(result.nation);
+            							 	$('form.layui-form').find('input[name=birthday]').val(getMyDate(result.birthday));
+            							 	$('form.layui-form').find('input[name=telephoneNumber]').val(result.telephoneNumber);
+            							 	$('form.layui-form').find('input[name=politicalStatus]').val(result.politicalStatus);
+            							 	$('form.layui-form').find('input[name=degreeOfEducation]').val(result.degreeOfEducation);
+            							 	$('form.layui-form').find('input[name=idnumber]').val(result.idnumber);
+            							 	$('form.layui-form').find('input[name=workplace]').val(result.workplace);
+            							 	$('form.layui-form').find('input[name=job]').val(result.job);
+            							 	$('form.layui-form').find('input[name=healthStatus]').val(result.healthStatus);
+            							 	$('form.layui-form').find('input[name=cityOwnedIndutries]').val(result.cityOwnedIndutries);
+            							 	$('form.layui-form').find('input[name=employmentStatus]').val(result.employmentStatus);
+            							 	$('form.layui-form').find('textarea[name=familyTrouble]').val(result.familyTrouble);
+            							 	$('form.layui-form').find('textarea[name=outstandingDeeds]').val(result.outstandingDeeds);
+            							 	$('form.layui-form').find('textarea[name=honoraryTitle]').val(result.honoraryTitle);
+            							 	if(result.treatment==1){
+            							 		$('form.layui-form').find('option[value=1]').selected;
+            							 	}
+            							 	else {
+            							 		if(result.treatment==2){
+            							 		$('form.layui-form').find('option[value=2]').selected;
+            							 			if(result.treatment==3){
+            							 				$('form.layui-form').find('option[value=3]').selected;
+            							 		    }
+            							 	    }
+            							 	    $('form.layui-form').find('option[value=""]').selected;
+            							 	}
+
+            							 	$('form.layui-form').find('textarea[name=modelWorkerStatus]').val(result.modelWorkerStatus);
+            							 	if(result.modelWorkerTitle==1){
+            							 		$('form.layui-form').find('option[value=1]').selected;
+            							 	}
+            							 	else {
+            							 		if(result.modelWorkerTitle==2){
+            							 		$('form.layui-form').find('option[value=2]').selected;
+            							 			if(result.modelWorkerTitle==3){
+            							 				$('form.layui-form').find('option[value=3]').selected;
+            							 		    }
+            							 	    }
+            							 	    $('form.layui-form').find('option[value=""]').selected;
+            							 	}	
+               									  //成功后需要做的事情，这里随便你这么操作！
+           								 }
+        								}
+    								});	
+							    }
+							    getInfo();
+								form.on('submit(edit)', function(data) {
+									console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+									console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+									console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}	
+									//这里可以写ajax方法提交表单
+									//return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+									
+									$.ajax({
+       									 type: "POST",
+        								 url: "/FCIS/advancedperson/update",  //后台程序地址
+       									 data: data.field,  //需要post的数据
+       									 success: function(result){          
+               								layer.msg(result.msg);  
+        								}
+    								});									
+								});
+							},
+							end: function() {
+								editBoxIndex = -1;
+							}
+						});
+					});
+				});
+
+			});
+
+						//绑定所有编辑按钮事件						
+						/*$('#content').children('tr').each(function() {
+							var $that = $(this);
+							$that.children('td:last-child').children('a[data-opt=edit]').on('click', function() {
+								//layer.msg($(this).data('name')+","+$(this).data('bs'));
+								//layer.msg($(this).data('bs'));
+							});
+						});*/
+						//可以不要这个点击事件了。
+						$('#content').children('tr').each(function() {
+							var $that = $(this);
+							$that.children('td:last-child').children('a[data-opt=del]').on('click', function() {
+							    //$that.remove();
+							     var name = $(this).data('name');
+							     var id=$(this).data('id');
+                                        //询问框
+                                        layerTips.confirm('确定要删除[ <span style="color:red;">' + name + '</span> ] ？', { icon: 3, title: '系统提示' }, function (index) {
+                                        	$that.remove();
+                                            layerTips.msg('删除成功.');
+                                        });
+                                         $.ajax({
+       									 type: "POST",
+        								 url: "/FCIS/advancedperson/delete",  //后台程序地址
+       									 data: {idnumber: id},  //需要post的数据
+       									 success: function(msg){           //后台程序返回的标签，比如我喜欢使用1和0 表示成功或者失败
+            							 if (msg==1){   //如果成功了
+               									 layer.msg('提交成功');  //成功后需要做的事情，这里随便你这么操作！
+           								 }
+        								}
+    								});		
+							});
+						});
+					},
+				});
+				
+				$('#search').on('click', function() {
+					var id=$('#searchText').val();
+					if(id==""){
+						layer.msg("请输入身份证号");
+					}
+					else{
+					paging.init({
+                    openWait: true,
+                    url: '/FCIS/advancedperson/find', //地址/FCIS/advancedperson/getAll
+					elem: '#content', //内容容器
+					params: { //发送到服务端的参数
+						idnumber:id
+					},
+					type: 'GET',
+					tempElem: '#tpl', //模块容器
+					pageConfig: { //分页参数配置
+						elem: '#paged', //分页容器
+						pageSize: 3 //分页大小
+					},
+					success: function(data) { //渲染成功的回调
+						console.log(data)
+					},
+					fail: function(msg) { //获取数据失败的回调
+						layer.msg("找不到这个人的信息");
+					},
+					complate: function() { //完成的回调
+						form.render('checkbox');
+						form.on('checkbox(allselector)', function(data) {
+							var elem = data.elem;
+
+							$('#content').children('tr').each(function() {
+								var $that = $(this);
+								//全选或反选
+								$that.children('td').eq(0).children('input[type=checkbox]')[0].checked = elem.checked;
+								form.render('checkbox');
+							});
+						});
+					}
+				   });
+					//location.reload(); //刷新
+				  }
+					
+				});
+				var addBoxIndex = -1;
+				$('#add').on('click', function() {
+					if(addBoxIndex !== -1)
+						return;
+					//本表单通过ajax加载 --以模板的形式，当然你也可以直接写在页面上读取
+					$.get('temp/edit-form1.html', null, function(form) {
+						addBoxIndex = layer.open({
+							type: 1,
+							title: '新增申报',
+							content: form,
+							btn: ['保存', '取消'],
+							shade: false,
+							offset: ['100px', '30%'],
+							area: ['600px', '400px'],
+							zIndex: 19950924,
+							maxmin: true,
+							yes: function(index) {
+								//触发表单的提交事件
+								$('form.layui-form').find('button[lay-filter=edit]').click();
+							},
+							full: function(elem) {
+								var win = window.top === window.self ? window : parent.window;
+								$(win).on('resize', function() {
+									var $this = $(this);
+									elem.width($this.width()).height($this.height()).css({
+										top: 0,
+										left: 0
+									});
+									elem.children('div.layui-layer-content').height($this.height() - 95);
+								});
+							},
+							success: function(layero, index) {
+								//弹出窗口成功后渲染表单
+								var form = layui.form();
+								form.render();
+								form.on('submit(edit)', function(data) {
+									console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+									console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+									console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+									//调用父窗口的layer对象
+									/*layerTips.open({
+										title: '这里面是表单的信息',
+										type: 1,
+										content: JSON.stringify(data.field),//主要显示是因为这一句
+										area: ['500px', '300px'],
+										btn: ['关闭并刷新', '关闭'],
+										yes: function(index, layero) {
+											layerTips.msg('你点击了关闭并刷新');
+											layerTips.close(index);
+											location.reload(); //刷新
+										}
+
+									});*/
+									//这里可以写ajax方法提交表单
+									//return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+									$.ajax({
+       									 type: "POST",
+        								 url: "/FCIS/advancedperson/add",  //后台程序地址
+       									 data: data.field,  //需要post的数据
+       									 success: function(msg){           //后台程序返回的标签，比如我喜欢使用1和0 表示成功或者失败
+            							 if (msg==1){   //如果成功了
+               									 layer.msg('提交成功');  //成功后需要做的事情，这里随便你这么操作！
+           								 }
+        								}
+    								});											
+								});
+								//console.log(layero, index);
+							},
+							end: function() {
+								addBoxIndex = -1;
+							}
+						});
+					});
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

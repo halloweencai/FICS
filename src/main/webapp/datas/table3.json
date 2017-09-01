@@ -1,0 +1,57 @@
+{
+    "rel": true,
+    "msg": "获取成功",
+    "list": [
+        {
+            "idnumber":1,
+            "name": "就这样吧",
+            "honoraryTitle":21,
+            "job": "苦逼程序员",
+            "modelWorkerStatus":"jakldjkf",
+            "treament":"dfkdhfk"
+        },
+        {
+             "idnumber":2,
+            "name": "哇哇",
+            "honoraryTitle":12,
+            "job": "领导",
+            "modelWorkerStatus":"jakldjkf",
+            "treament":"dfkdhfk"
+        },
+         {
+             "idnumber":3,
+            "name": "无语",
+            "honoraryTitle":21,
+            "job": "攻城狮",
+            "modelWorkerStatus":"jakldjkf",
+            "treament":"dfkdhfk"
+        },
+        {
+            "idnumber":4,
+            "name": "好厉害呀",
+            "honoraryTitle":21,
+            "job": "设计师",
+            "modelWorkerStatus":"jakldjkf",
+            "treament":"dfkdhfk"
+        },
+         {
+            "idnumber":5,
+            "name": "拉腊了",
+            "honoraryTitle":21,
+            "job": "交互师",
+            "modelWorkerStatus":"jakldjkf",
+            "treament":"dfkdhfk"
+        },
+        {
+            "idnumber":6,
+            "name": "啦啦啦啦",
+            "honoraryTitle":21,
+            "job": "项目经理",
+            "modelWorkerStatus":"jakldjkf",
+            "treament":"dfkdhfk"
+        }
+    ],
+    "count": 57
+}
+
+

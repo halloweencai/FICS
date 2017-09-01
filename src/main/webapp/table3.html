@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>先进个人信息管理</title>
+		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="css/global.css" media="all">
+		<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/table.css" />
+	</head>
+
+	<body>
+		<div class="admin-main">
+			<blockquote class="layui-elem-quote">
+			     <div class="layui-form-item">
+			        <div class="layui-inline">
+				     <a href="javascript:;" class="layui-btn layui-btn-small" id="add" data-method="setTop">
+					   <i class="layui-icon">&#xe608;</i> 认定
+				     </a>
+				    </div>
+				    <div class="layui-inline">
+                       <label class="layui-form-label">查询条件</label>
+                         <div class="layui-input-inline">
+                          <select name="interest" lay-filter="aihao" style="margin-top:10px;left:500px;">
+                          <option value="" selected="">请选择</option>
+                          <option value="0">基本情况</option>
+                          <option value="1">荣誉称号</option>
+                          <option value="2">系统分类</option>
+                          <option value="3">社会属性</option>
+                          <option value="3">认定状态</option>
+                          <option value="3">调动状态</option>
+                          <option value="3">死亡状况</option>
+                          </select>
+                           <select name="interest" lay-filter="aihao" style="margin-top:10px;margin-left: 5px;">
+                          <option value="" selected="">请选择</option>
+                          <option value="0">未认定</option>
+                          <option value="1">已认定</option>
+                          </select>
+                         </div>
+                    </div>
+                    <div class="layui-inline" style="left: -20px;">
+                       <a href="javascript:;" class="layui-btn layui-btn-small" id="search">
+					      <i class="layui-icon">&#xe615;</i> 搜索
+				       </a>
+                    </div>
+                 </div>
+			</blockquote>
+			<blockquote class="layui-elem-quote">
+			    <p>PS:待遇等级：1为享受全国劳动模范待遇、2为享受省、部级劳动模范待遇、3为不能享受全国劳动模范待遇、4为不能享受省、部级劳动模范待遇。</p>
+			</blockquote>
+			<fieldset class="layui-elem-field">
+				<legend>数据列表</legend>
+				<div class="layui-field-box layui-form">
+					<table class="layui-table admin-table">
+						<thead>
+							<tr>
+								<th style="width: 30px;"><input type="checkbox" lay-filter="allselector" lay-skin="primary"></th>
+								<th>姓名</th>
+								<th>荣誉称号</th>
+								<th>社会属性</th>
+								<th>劳模状态</th>
+								<th>劳模待遇</th>
+							</tr>
+						</thead>
+						<tbody id="content">
+						</tbody>
+					</table>
+				</div>
+			</fieldset>
+			<div class="admin-table-page">
+				<div id="paged" class="page">
+				</div>
+			</div>
+		</div>
+		<!--模板-->
+		<script type="text/html" id="tpl">
+			{{# layui.each(d.list, function(index, item){ }}
+			<tr>
+				<td><input type="checkbox" lay-skin="primary"></td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.honoraryTitle }}</td>
+				<td>{{ item.job }}</td>
+				<td>{{ item.modelWorkerStatus }}</td>
+				<td>{{ item.treament}}</td>
+			</tr>
+			{{# }); }}
+		</script>
+		<script type="text/javascript" src="plugins/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: 'js/'
+			});
+
+			layui.use(['paging', 'form'], function() {
+				var $ = layui.jquery,
+					paging = layui.paging(),
+					layerTips = parent.layer === undefined ? layui.layer : parent.layer, //获取父窗口的layer对象
+					layer = layui.layer, //获取当前窗口的layer对象
+					form = layui.form();
+
+
+                paging.init({
+                    openWait: true,
+                    url: 'datas/table3.json', //地址
+					elem: '#content', //内容容器
+					params: { //发送到服务端的参数
+					},
+					type: 'GET',
+					tempElem: '#tpl', //模块容器
+					pageConfig: { //分页参数配置
+						elem: '#paged', //分页容器
+						pageSize: 3 //分页大小
+					},
+					success: function() { //渲染成功的回调
+						//alert('渲染成功');
+					},
+					fail: function(msg) { //获取数据失败的回调
+						//alert('获取数据失败')
+					},
+					complate: function() { //完成的回调
+						//alert('处理完成');
+						//重新渲染复选框
+						form.render('checkbox');
+						form.on('checkbox(allselector)', function(data) {
+							var elem = data.elem;
+
+							$('#content').children('tr').each(function() {
+								var $that = $(this);
+								//全选或反选
+								$that.children('td').eq(0).children('input[type=checkbox]')[0].checked = elem.checked;
+								form.render('checkbox');
+							});
+						});
+
+						$('#content').children('tr').each(function() {
+							var $that = $(this);
+							$that.children('td:last-child').children('a[data-opt=maintain]').on('click', function() {
+							    		var unitName=$(this).data('un');//局部变量，暂时存放所在列的unitName
+							     		var cityOwnedIndutries=$(this).data('coi');
+                                         $.ajax({
+       									 type: "POST",
+        								 url: "/FCIS/advancedgroup/delete",  //后台程序地址
+       									 data: {unitName:unitName,cityOwnedIndutries:cityOwnedIndutries}, //需要post的数据
+       									 success: function(msg){           //后台程序返回的标签，比如我喜欢使用1和0 表示成功或者失败
+            							 if (msg==1){   //如果成功了
+               									 layer.msg('提交成功');  //成功后需要做的事情，这里随便你这么操作！
+           								 }
+        								}
+    								});		
+							});
+						});
+					},
+				});
+				//获取所有选择的列
+				$('#getSelected').on('click', function() {
+					var names = '';
+					$('#content').children('tr').each(function() {
+						var $that = $(this);
+						var $cbx = $that.children('td').eq(0).children('input[type=checkbox]')[0].checked;
+						if($cbx) {
+							var n = $that.children('td:last-child').children('a[data-opt=edit]').data('name');
+							names += n + ',';
+						}
+					});
+					layer.msg('你选择的名称有：' + names);
+				});
+
+
+				$('#search').on('click', function() {
+					parent.layer.alert('你点击了搜索按钮')
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,133 @@
+<div style="margin: 15px;">
+	<form class="layui-form">
+		<div class="layui-form-item">
+			<label class="layui-form-label">姓名</label>
+			<div class="layui-input-block">
+				<input type="text" id="nm" name="name" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">性别</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex" value="男" title="男">
+				<input type="radio" name="sex" value="女" title="女" checked>
+				<input type="radio" name="sex" value="其他" title="其他">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">民族</label>
+			<div class="layui-input-block">
+				<input type="text" name="nation" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">出生年月</label>
+			<div class="layui-input-block">
+				<input type="text" name="birthday" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系电话</label>
+			<div class="layui-input-block">
+				<input type="text" name="telephoneNumber" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="phone">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">政治面貌</label>
+			<div class="layui-input-block">
+				<input type="text" name="politicalStatus" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">文化程度</label>
+			<div class="layui-input-block">
+				<input type="text" name="degreeOfEducation" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">身份证号</label>
+			<div class="layui-input-block">
+				<input type="text" name="idnumber" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="identity">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">工作单位</label>
+			<div class="layui-input-block">
+				<input type="text" name="workplace" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">职位</label>
+			<div class="layui-input-block">
+				<input type="text" name="job" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">健康状况</label>
+			<div class="layui-input-block">
+				<input type="text" name="healthStatus" placeholder="请输入" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属市州产地</label>
+			<div class="layui-input-block">
+				<input type="text" name="cityOwnedIndutries" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">就业情况</label>
+			<div class="layui-input-block">
+				<input type="text" name="employmentStatus" placeholder="请输入" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">家庭困难情况</label>
+			<div class="layui-input-block">
+				<textarea name="familyTrouble" placeholder="请输入内容" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">主要突出事迹</label>
+			<div class="layui-input-block">
+				<textarea name="outstandingDeeds" placeholder="请输入内容" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">荣誉称号</label>
+			<div class="layui-input-block">
+				<textarea name="honoraryTitle" placeholder="请输入内容" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">劳模待遇</label>
+			<div class="layui-input-block">
+				<select name="treatment">
+					<option value=""></option>
+					<option value="0">1、享受全国劳动模范待遇</option>
+					<option value="1">2、享受省、部级劳动模范待遇</option>
+					<option value="2">3、不能享受全国劳动模范待遇</option>
+					<option value="3">4、不能享受省、部级劳动模范待遇</option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">劳模状态</label>
+			<div class="layui-input-block">
+				<textarea name="modelWorkerStatus" placeholder="请输入内容" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">劳模称号</label>
+			<div class="layui-input-block">
+				<select name="modelWorkerTitle">
+					<option value=""></option>
+					<option value="0">全国劳模</option>
+					<option value="1">四川省劳模</option>
+					<option value="2">全国五一劳动奖状</option>
+					<option value="3">四川省五一劳动奖状</option>
+				</select>
+			</div>
+		</div>
+		<button lay-filter="edit" lay-submit style="display: none;"></button>
+	</form>
+</div>
